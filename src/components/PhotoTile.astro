@@ -1,0 +1,105 @@
+---
+/**
+ * A masonry tile. The image is a real <button> that opens the lightbox:
+ * `data-lb-group` names the page's Lightbox group, `data-lb-index` is the
+ * photo's position in that group's list. Hover/focus clears the treatment
+ * and fades in the meta/caption (always visible < 760px).
+ */
+import PhotoImage from './PhotoImage.astro';
+import type { Photo } from '../lib/content';
+
+interface Props {
+  photo: Photo;
+  index: number;
+  group: string;
+  variant: 'highlight' | 'gallery';
+  sizes: string;
+  /** Delay for the scroll-reveal stagger. */
+  revealDelay?: number;
+}
+
+const { photo, index, group, variant, sizes, revealDelay = 0 } = Astro.props;
+const num = String(index + 1).padStart(2, '0');
+---
+
+<figure class:list={['tile hover-root', variant]} data-reveal style={`--reveal-delay:${revealDelay}ms`}>
+  {
+    variant === 'highlight' && (
+      <div class="meta">
+        <span>{num}</span>
+        <span class="fade">
+          {photo.location}, {photo.year}
+        </span>
+      </div>
+    )
+  }
+  <button
+    type="button"
+    class="trigger"
+    data-lb-group={group}
+    data-lb-index={index}
+    data-photo-id={photo.id}
+    aria-label={`Open ${photo.title}, ${photo.location}, ${photo.year}`}
+  >
+    <PhotoImage photo={photo} sizes={sizes} />
+  </button>
+  {
+    variant === 'highlight' ? (
+      <figcaption class="caption fade">{photo.title}</figcaption>
+    ) : (
+      <figcaption class="caption caption--split fade">
+        <span>{photo.title}</span>
+        <span>{photo.year}</span>
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .meta .fade {
+    text-align: right;
+  }
+  .trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+  .caption {
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .caption--split {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .fade {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .tile:hover .fade,
+  .tile:focus-within .fade {
+    opacity: 1;
+  }
+  @media (max-width: 759px) {
+    .fade {
+      opacity: 1;
+    }
+  }
+</style>

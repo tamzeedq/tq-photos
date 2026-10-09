@@ -1,0 +1,87 @@
+---
+/**
+ * Shortest-column-first masonry, computed at build time for each breakpoint
+ * and switched with media queries (zero JS). Columns are separated by
+ * full-height 2px rules: each column has border-left + margin-left:-2px
+ * inside an overflow:hidden row, so the first rule falls off-screen.
+ * Hidden variants are display:none, so their lazy images never load and
+ * their buttons leave the tab order.
+ */
+import PhotoTile from './PhotoTile.astro';
+import { distribute, type Photo } from '../lib/content';
+
+interface Props {
+  photos: Photo[];
+  group: string;
+  variant: 'highlight' | 'gallery';
+}
+
+const { photos, group, variant } = Astro.props;
+
+// highlight: 1 col < 760, 2 cols 760–1099, 3 cols ≥ 1100. gallery: 1 col < 760, 2 cols ≥ 760.
+const layouts =
+  variant === 'highlight'
+    ? [
+        { cols: 1, cls: 'v-mobile', sizes: '100vw' },
+        { cols: 2, cls: 'v-mid', sizes: '50vw' },
+        { cols: 3, cls: 'v-wide', sizes: '33vw' },
+      ]
+    : [
+        { cols: 1, cls: 'v-mobile', sizes: '100vw' },
+        { cols: 2, cls: 'v-mid v-wide', sizes: '50vw' },
+      ];
+---
+
+{
+  layouts.map((l) => (
+    <div class:list={['masonry', l.cls]}>
+      {distribute(photos, l.cols).map((col) => (
+        <div class="col">
+          {col.map(({ item, index }, j) => (
+            <PhotoTile
+              photo={item}
+              index={index}
+              group={group}
+              variant={variant}
+              sizes={l.sizes}
+              revealDelay={(j % 3) * 90}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  ))
+}
+
+<style>
+  .masonry {
+    display: none;
+    align-items: stretch;
+    overflow: hidden;
+  }
+  .col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gutter);
+    padding: var(--gutter);
+    border-left: var(--rule);
+    margin-left: -2px;
+  }
+  @media (max-width: 759px) {
+    .v-mobile {
+      display: flex;
+    }
+  }
+  @media (min-width: 760px) and (max-width: 1099px) {
+    .v-mid {
+      display: flex;
+    }
+  }
+  @media (min-width: 1100px) {
+    .v-wide {
+      display: flex;
+    }
+  }
+</style>

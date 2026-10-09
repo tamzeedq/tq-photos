@@ -1,0 +1,86 @@
+---
+/**
+ * One ruled row on the /collections index. The whole row is a real link.
+ * Hover: neutral-200 fill; the cover clears and scales (via .hover-root).
+ * ≥ 760px: 4 cells separated by 2px border-left. < 760px: stacked, separated
+ * by 2px border-top.
+ */
+import PhotoImage from './PhotoImage.astro';
+import type { Gallery } from '../lib/content';
+
+interface Props {
+  gallery: Gallery;
+}
+const { gallery: g } = Astro.props;
+---
+
+<a href={`/collections/${g.slug}`} class="row hover-root rule-b" data-reveal style="--zoom:1.04">
+  <div class="cell label t-accent">{g.num}</div>
+  <div class="cell sep main">
+    <div>
+      <h2 class="t-h2 title">{g.title}</h2>
+      <p class="where">{g.where}</p>
+    </div>
+    <p class="blurb"><span class="placeholder-copy">{g.blurb}</span></p>
+  </div>
+  <div class="cell sep meta label">
+    <span>{g.count} photographs<br />{g.years}</span>
+    <span class="t-accent">Open collection →</span>
+  </div>
+  <div class="cell sep">
+    <PhotoImage photo={g.cover} aspect="4 / 3" sizes="(max-width: 759px) 100vw, 34vw" />
+  </div>
+</a>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 5fr) minmax(0, 2fr) minmax(0, 4fr);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .row:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
+  }
+  .cell {
+    padding: var(--gutter);
+  }
+  .sep {
+    border-left: var(--rule);
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .title {
+    margin: 0 0 8px;
+  }
+  .where {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .blurb {
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+  .meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  @media (max-width: 759px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .sep {
+      border-left: 0;
+      border-top: var(--rule);
+    }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+/**
+ * Contact: red panel (5fr) + Netlify form (7fr). Without JS the form posts
+ * natively to Netlify. With JS it submits via fetch and shows
+ * idle → sending → sent | error states inline.
+ */
+---
+
+<section id="contact" class="contact">
+  <div class="panel" data-reveal>
+    <h2 class="t-contact">Prints available on request.</h2>
+    <div class="links">
+      <a href="mailto:tamzeed.q@gmail.com">tamzeed.q@gmail.com</a>
+      <a href="https://instagram.com/izuaq" target="_blank" rel="noopener">Instagram — @izuaq</a>
+    </div>
+    <p class="note">For licensing, tell me which photograph and where it will be used.</p>
+  </div>
+
+  <form
+    name="contact"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    data-contact-form
+    data-astro-reload
+    class="form"
+    data-reveal
+  >
+    <div class="body" data-form-body>
+      <input type="hidden" name="form-name" value="contact" />
+      <div class="hp" aria-hidden="true">
+        <label for="contact-bot">Leave this field empty</label>
+        <input id="contact-bot" name="bot-field" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <h3>Send a message</h3>
+      <div class="field">
+        <label for="contact-name">Name</label>
+        <input id="contact-name" class="input" name="name" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="contact-email">Email</label>
+        <input id="contact-email" class="input" type="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" class="input" name="message" rows="5" required></textarea>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-wide submit" type="submit">
+          <span data-btn-label>Send message</span> <span aria-hidden="true">→</span>
+        </button>
+        <p class="error" role="alert" data-form-error hidden>Couldn’t send — please email me directly.</p>
+      </div>
+    </div>
+    <div class="status" aria-live="polite" data-form-status></div>
+  </form>
+</section>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .panel {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    padding: var(--section-top) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .panel h2 {
+    color: var(--color-bg);
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .links a,
+  .links a:hover {
+    color: var(--color-bg);
+  }
+  .note {
+    font-size: 14px;
+    max-width: 42ch;
+  }
+
+  .form {
+    padding: var(--section-top) var(--gutter);
+    max-width: 640px;
+    width: 100%;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .body[hidden] {
+    display: none;
+  }
+  h3 {
+    margin: 0 0 8px;
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  .submit {
+    padding: 14px 16px;
+  }
+  .error {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-accent-700);
+  }
+  .error[hidden] {
+    display: none;
+  }
+  .status :global(.thanks) {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .status :global(.thanks:focus) {
+    outline: none;
+  }
+  /* Honeypot: visually hidden, out of the tab order. */
+  .hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 759px) {
+    .contact {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  type State = 'idle' | 'sending' | 'sent' | 'error';
+
+  function initContactForms() {
+    document.querySelectorAll<HTMLFormElement>('form[data-contact-form]').forEach((form) => {
+      if (form.dataset.bound) return;
+      form.dataset.bound = 'true';
+
+      const body = form.querySelector<HTMLElement>('[data-form-body]')!;
+      const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+      const error = form.querySelector<HTMLElement>('[data-form-error]')!;
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      const label = form.querySelector<HTMLElement>('[data-btn-label]')!;
+      const idleLabel = label.textContent ?? 'Send message';
+
+      const setState = (state: State) => {
+        form.dataset.state = state;
+        button.disabled = state === 'sending';
+        label.textContent = state === 'sending' ? 'Sending…' : idleLabel;
+        error.hidden = state !== 'error';
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (form.dataset.state === 'sending') return;
+        setState('sending');
+        try {
+          const data = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+          const res = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: data.toString(),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          setState('sent');
+          body.remove();
+          const thanks = document.createElement('p');
+          thanks.className = 'thanks';
+          thanks.tabIndex = -1;
+          thanks.textContent = 'Thank you. I’ll write back soon.';
+          status.append(thanks);
+          thanks.focus();
+        } catch {
+          setState('error');
+        }
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContactForms);
+</script>

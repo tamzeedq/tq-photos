@@ -1,0 +1,65 @@
+---
+/**
+ * Home-page collection card. The whole card is a real link; hover fills it
+ * neutral-200 and clears/zooms the cover (via .hover-root, --zoom 1.04).
+ * Ruled with border-left + border-top and -2px margins; the parent grid must
+ * be overflow:hidden so outer rules fall off-screen / overlap neighbours.
+ */
+import PhotoImage from './PhotoImage.astro';
+import type { Gallery } from '../lib/content';
+
+interface Props {
+  gallery: Gallery;
+  /** Position in the grid, for the reveal stagger. */
+  index: number;
+}
+
+const { gallery, index } = Astro.props;
+---
+
+<a
+  href={`/collections/${gallery.slug}`}
+  class="card hover-root"
+  data-reveal
+  style={`--zoom:1.04;--reveal-delay:${(index % 3) * 90}ms`}
+>
+  <div class="meta label">
+    <span class="t-accent">{gallery.num}</span>
+    <span>{gallery.count} photographs</span>
+  </div>
+  <PhotoImage photo={gallery.cover} aspect="4 / 5" sizes="(max-width: 759px) 100vw, 33vw" />
+  <div>
+    <h3 class="t-h3">{gallery.title}</h3>
+    <p class="where">{gallery.where}</p>
+  </div>
+  <span class="label t-accent">Open collection <span aria-hidden="true">→</span></span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: var(--gutter);
+    border-left: var(--rule);
+    border-top: var(--rule);
+    margin: -2px 0 0 -2px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .card:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+  }
+  h3 {
+    margin: 0 0 4px;
+  }
+  .where {
+    margin: 0;
+    font-size: 14px;
+  }
+</style>

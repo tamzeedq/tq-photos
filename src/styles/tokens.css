@@ -1,0 +1,49 @@
+/* Design tokens — Modernist design system (see design_handoff_tq_portfolio/README.md). */
+:root {
+  /* Colour */
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201e1d;
+  --color-accent: #ec3013;
+  --color-accent-600: #dd2b0f;
+  --color-accent-700: #ae1800;
+  --color-accent-900: #4d170e;
+  --color-neutral-200: #eae7e7;
+  --color-neutral-300: #d7d3d3;
+  --color-neutral-500: #9b9797;
+  --color-neutral-800: #444141;
+  --color-neutral-900: #2d2b2b;
+  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+
+  /* Type */
+  --font-heading: "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --fs-hero: clamp(64px, 13vw, 220px);
+  --fs-h1: clamp(40px, 10vw, 168px); /* spec min is 56px; lowered so "COLLECTIONS" fits a 360px phone */
+  --fs-h2: clamp(40px, 6vw, 96px);
+  --fs-contact: clamp(44px, 6.5vw, 104px);
+  --fs-h3: clamp(28px, 3vw, 44px);
+
+  /* Spacing */
+  --gutter: clamp(16px, 2.5vw, 32px);
+  --section-top: clamp(48px, 7vw, 96px);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Rules */
+  --rule: 2px solid var(--color-text);
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+
+  /* Image treatment (configurable): resting saturation + halftone dot screen. */
+  --rest-saturation: .45;
+  --rest-filter: saturate(var(--rest-saturation)) contrast(1.06) brightness(.98);
+  --hero-filter: saturate(.55) contrast(1.06);
+  --dot-opacity: 1; /* 0 disables the dot screen site-wide */
+  --dot-screen: radial-gradient(circle, rgba(32, 30, 29, .26) 30%, transparent 32%);
+}

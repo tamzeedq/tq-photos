@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import CollectionRow from '../../components/CollectionRow.astro';
+import { getGalleries, uniquePhotoCount } from '../../lib/content';
+
+const galleries = await getGalleries();
+const photoCount = uniquePhotoCount(galleries);
+const description = `Photography collections by Tamzeed Quazi: ${galleries
+  .map((g) => `${g.title} (${g.where})`)
+  .join(', ')}.`;
+---
+
+<Base title="Collections" description={description}>
+  <main>
+    <SectionHeader as="h1" title="Collections">
+      <span class="t-accent">Index</span>
+      <span>{galleries.length} collections</span>
+      <span>{photoCount} photographs</span>
+    </SectionHeader>
+    {galleries.map((g) => <CollectionRow gallery={g} />)}
+  </main>
+</Base>

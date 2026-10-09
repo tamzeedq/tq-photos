@@ -1,0 +1,238 @@
+---
+/**
+ * Full-screen photo viewer, rendered once per page in Base's `overlay` slot.
+ * Tiles open it via `[data-lb-group][data-lb-index]` (event delegation in
+ * scripts/lightbox.ts). Per-photo display images are generated here at build
+ * time and serialized as JSON; the client swaps them into a single <img>.
+ */
+import { getImage } from 'astro:assets';
+import type { Photo } from '../lib/content';
+
+interface Props {
+  group: string;
+  photos: Photo[];
+}
+
+const { group, photos } = Astro.props;
+
+interface LightboxItem {
+  id: string;
+  src: string;
+  srcset: string;
+  width: number;
+  height: number;
+  alt: string;
+  title: string;
+  location: string;
+  year: string;
+  camera?: string;
+}
+
+const items: LightboxItem[] = await Promise.all(
+  photos.map(async (p) => {
+    const { image } = p;
+    const max = Math.min(2000, image.width);
+    const widths = [1080, 1600, 2000].filter((w) => w < max);
+    widths.push(max);
+    const img = await getImage({ src: image, width: max, widths, format: 'webp' });
+    const width = Math.round(Number(img.attributes.width ?? max));
+    const height = Math.round(Number(img.attributes.height ?? (image.height * max) / image.width));
+    return {
+      id: p.id,
+      src: img.src,
+      srcset: img.srcSet.attribute,
+      width,
+      height,
+      alt: p.alt,
+      title: p.title,
+      location: p.location,
+      year: p.year,
+      camera: p.camera,
+    };
+  }),
+);
+
+// `<` would otherwise be able to close the script element.
+const json = JSON.stringify(items).replace(/</g, '\\u003c');
+const first = items[0];
+---
+
+<div
+  class="lb"
+  data-lightbox={group}
+  role="dialog"
+  aria-modal="true"
+  aria-label="Photo viewer"
+  aria-hidden="true"
+  inert
+>
+  <div class="lb-top">
+    <span class="lb-counter" data-lb-counter>1 / {items.length}</span>
+    <button type="button" class="lb-close" data-lb-close aria-label="Close viewer (Esc)">Close ×</button>
+  </div>
+
+  <div class="lb-stage">
+    <img class="lb-img" data-lb-img alt="" draggable="false" decoding="async" sizes="100vw" />
+    <button type="button" class="lb-zone lb-prev" data-lb-prev aria-label="Previous photo"></button>
+    <button type="button" class="lb-zone lb-next" data-lb-next aria-label="Next photo"></button>
+    <div class="lb-arrows" aria-hidden="true"><span>←</span><span>→</span></div>
+  </div>
+
+  <div class="lb-bar" aria-live="polite">
+    <span class="lb-title" data-lb-title>{first?.title}</span>
+    <span class="lb-meta lb-loc" data-lb-loc>{first && `${first.location}, ${first.year}`}</span>
+    <span class="lb-meta lb-cam" data-lb-cam>{first?.camera ?? 'Camera unknown'}</span>
+  </div>
+
+  <script type="application/json" data-lb-data set:html={json} />
+</div>
+
+<script>
+  import '../scripts/lightbox';
+</script>
+
+<style>
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-text);
+    color: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* Hide (and drop from focus/AT) only once the fade-out has finished. */
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+  }
+  .lb.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0s;
+  }
+
+  .lb-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: 2px solid var(--color-neutral-800);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .lb-counter {
+    padding: 16px var(--gutter);
+    font-variant-numeric: tabular-nums;
+  }
+  .lb-close {
+    padding: 16px 24px;
+    background: none;
+    border: 0;
+    border-left: 2px solid var(--color-neutral-800);
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .lb-close:hover {
+    color: var(--color-neutral-300);
+  }
+
+  .lb-stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 3vw, 40px);
+    touch-action: pan-y pinch-zoom;
+  }
+  .lb-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition:
+      opacity 0.25s ease,
+      transform 0.4s var(--ease-out);
+  }
+  .lb-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    padding: 0;
+    background: none;
+    border: 0;
+  }
+  .lb-prev {
+    left: 0;
+    cursor: w-resize;
+  }
+  .lb-next {
+    right: 0;
+    cursor: e-resize;
+  }
+  .lb-zone:focus-visible {
+    outline-offset: -4px;
+  }
+  .lb-arrows {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 800;
+    pointer-events: none;
+  }
+
+  .lb-bar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 2px solid var(--color-neutral-800);
+    font-size: 13px;
+  }
+  .lb-bar > span {
+    padding: 14px var(--gutter);
+  }
+  .lb-title {
+    grid-column: span 2;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .lb-meta {
+    border-left: 2px solid var(--color-neutral-800);
+    color: var(--color-neutral-300);
+  }
+
+  @media (max-width: 759px) {
+    .lb-bar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .lb-bar > span {
+      padding: 10px var(--gutter);
+    }
+    .lb-title {
+      grid-column: 1 / -1;
+    }
+    .lb-meta {
+      border-top: 2px solid var(--color-neutral-800);
+    }
+    .lb-loc {
+      border-left: 0;
+    }
+  }
+</style>

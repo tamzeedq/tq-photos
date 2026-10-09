@@ -1,0 +1,50 @@
+---
+/**
+ * Big title spanning 3 of 4 columns + a ruled info cell (slot) whose content
+ * sits at the bottom while its left rule spans the full row height.
+ * Pass extra full-width rows (e.g. a back bar or blurb) via the `before` /
+ * `after` named slots; give them `class="span-all"`.
+ */
+interface Props {
+  title: string;
+  as?: 'h1' | 'h2';
+  id?: string;
+  /** Gap between items in the info cell. */
+  infoGap?: string;
+}
+const { title, as: Tag = 'h2', id, infoGap = '0px' } = Astro.props;
+const size = Tag === 'h1' ? 't-h1' : 't-h2';
+---
+
+<div class="section-header grid4 rule-b">
+  <slot name="before" />
+  <Tag id={id} class:list={['title span3', size]} data-reveal>{title}</Tag>
+  <div class="info rule-l label" style={`gap:${infoGap}`}>
+    <slot />
+  </div>
+  <slot name="after" />
+</div>
+
+<style>
+  .title {
+    padding: var(--section-top) var(--gutter) 24px;
+  }
+  .info {
+    padding: 24px var(--gutter);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  /* Phones: title full width, info cell stacked beneath with a top rule. */
+  @media (max-width: 759px) {
+    .title,
+    .info {
+      grid-column: 1 / -1;
+    }
+    .info {
+      border-left: 0;
+      border-top: var(--rule);
+      padding-block: 16px;
+    }
+  }
+</style>

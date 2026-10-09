@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-d1df57d7-6b1a-467b-b6bf-9aaa612b1c86/styles.css">
+<script src="_ds/modernist-d1df57d7-6b1a-467b-b6bf-9aaa612b1c86/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>html{scroll-behavior:smooth}body{margin:0;background:var(--color-bg);color:var(--color-text)}a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-900)}img{-webkit-user-drag:none;user-select:none}@keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<div style="min-height:100vh;opacity:{{ pageOpacity }};transition:opacity .3s ease">
+
+<nav aria-label="Primary" style="position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;background:var(--color-bg);border-bottom:2px solid var(--color-text)">
+<a href="#top" onClick="{{ goHome }}" style="grid-column:span 2;padding:16px clamp(16px,2.5vw,32px);font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:0.02em;text-transform:uppercase;color:var(--color-text);text-decoration:none;display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:12px;height:12px;background:var(--color-accent);flex:none"></span>Tamzeed Quazi</a>
+<div style="grid-column:span 2;display:flex;flex-wrap:wrap;border-left:2px solid var(--color-text)">
+<a href="#work" onClick="{{ navWork }}" style="flex:1;padding:16px 14px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-text);text-decoration:none" style-hover="background:var(--color-neutral-200)">Highlights</a>
+<a href="#collections" onClick="{{ navCollections }}" style="flex:1;padding:16px 14px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-text);text-decoration:none" style-hover="background:var(--color-neutral-200)">Collections</a>
+<a href="#about" onClick="{{ navAbout }}" style="flex:1;padding:16px 14px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-text);text-decoration:none" style-hover="background:var(--color-neutral-200)">About</a>
+<a href="#contact" onClick="{{ navContact }}" style="flex:1;padding:16px 14px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-text);text-decoration:none" style-hover="background:var(--color-neutral-200)">Contact</a>
+</div>
+</nav>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<header id="top" data-screen-label="Hero" style="position:relative;height:calc(100svh - 52px);min-height:540px;overflow:hidden;background:var(--color-neutral-900);border-bottom:2px solid var(--color-text)">
+<div style="position:absolute;inset:0"><img data-parallax="1" src="photos/p10.jpg" alt="A pale lake curving through a dark meadow under a flat overcast sky" draggable="false" fetchpriority="high" style="position:absolute;inset:-6% 0 0 0;width:100%;height:112%;object-fit:cover;filter:saturate(.55) contrast(1.06);will-change:transform"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(32,30,29,.26) 30%,transparent 32%);background-size:3px 3px;mix-blend-mode:multiply;opacity:{{ hero.dots }};transition:opacity .5s ease"></div></div>
+<div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(32,30,29,.7),rgba(32,30,29,0) 55%)"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));color:var(--color-bg)">
+<div style="grid-column:1 / -1;padding:0 clamp(16px,2.5vw,32px) 28px">
+<h1 style="margin:0;font-size:clamp(64px,13vw,220px);line-height:.84;letter-spacing:-0.045em;text-transform:uppercase;color:var(--color-bg)">Tamzeed<br>Quazi</h1>
+</div>
+<p style="grid-column:span 2;margin:0;padding:16px clamp(16px,2.5vw,32px);border-top:2px solid var(--color-bg);font-size:15px;font-weight:600;border-bottom:0"><span style="border-bottom:1px dashed rgba(243,242,242,.5)">Mountains, cities, and the weather between them.</span></p>
+<div style="grid-column:span 2;padding:16px clamp(16px,2.5vw,32px);border-top:2px solid var(--color-bg);border-left:2px solid var(--color-bg);display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">
+<span>Vancouver, BC</span><span style="display:flex;align-items:center;gap:10px">Scroll {{ cue }}</span>
+</div>
+</div>
+</header>
+
+<main>
+<section id="work" data-screen-label="Highlights" style="border-bottom:2px solid var(--color-text)">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:2px solid var(--color-text)">
+<h2 data-reveal="1" style="grid-column:span 3;margin:0;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 24px;font-size:clamp(40px,6vw,96px);line-height:.9;letter-spacing:-0.04em;text-transform:uppercase">Highlights</h2>
+<p style="margin:0;padding:24px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);display:flex;flex-direction:column;justify-content:flex-end;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">{{ featuredCount }} photographs<br>2023–2025<br><span style="color:var(--color-accent-700)">Colour on hover</span></p>
+</div>
+<div style="display:flex;align-items:stretch;overflow:hidden">
+<sc-for list="{{ fCols }}" as="column" hint-placeholder-count="3">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:clamp(16px,2.5vw,32px);padding:clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);margin-left:-2px">
+<sc-for list="{{ column }}" as="p" hint-placeholder-count="3">
+<figure data-reveal="1" style="margin:0">
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding-bottom:8px">
+<span>{{ p.num }}</span>
+<span style="opacity:{{ p.capOpacity }};transition:opacity .3s ease;text-align:right">{{ p.loc }}, {{ p.year }}</span>
+</div>
+<div role="button" tabindex="0" aria-label="{{ p.label }}" onClick="{{ p.open }}" onKeyDown="{{ p.key }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style="cursor:zoom-in;position:relative;overflow:hidden;aspect-ratio:{{ p.ratio }};background:{{ p.color }}">
+<img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" decoding="async" draggable="false" style="width:100%;height:100%;object-fit:cover;filter:{{ p.filt }};transform:{{ p.zoom }};transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s ease">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(32,30,29,.26) 30%,transparent 32%);background-size:3px 3px;mix-blend-mode:multiply;opacity:{{ p.dots }};transition:opacity .5s ease"></div>
+</div>
+<figcaption style="margin-top:8px;font-size:15px;font-weight:600;color:var(--color-text);opacity:{{ p.capOpacity }};transition:opacity .3s ease">{{ p.title }}</figcaption>
+</figure>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="collections" data-screen-label="Collections" style="border-bottom:2px solid var(--color-text)">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:2px solid var(--color-text)">
+<h2 data-reveal="1" style="grid-column:span 3;margin:0;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 24px;font-size:clamp(40px,6vw,96px);line-height:.9;letter-spacing:-0.04em;text-transform:uppercase">Collections</h2>
+<div style="padding:24px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);display:flex;flex-direction:column;justify-content:flex-end;gap:16px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">
+<span>{{ colCount }} collections<br>{{ photoCount }} photographs</span>
+<a href="#collections-all" onClick="{{ navCollections }}" class="btn btn-secondary" style="justify-content:space-between;width:100%;text-decoration:none">All collections <span aria-hidden="true">→</span></a>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:{{ colGrid3 }};overflow:hidden">
+<sc-for list="{{ homeCollections }}" as="c" hint-placeholder-count="3">
+<article data-reveal="1" role="button" tabindex="0" aria-label="{{ c.label }}" onClick="{{ c.open }}" onKeyDown="{{ c.key }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="cursor:pointer;display:flex;flex-direction:column;gap:16px;padding:clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);border-top:2px solid var(--color-text);margin:-2px 0 0 -2px" style-hover="background:var(--color-neutral-200)">
+<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase"><span style="color:var(--color-accent-700)">{{ c.num }}</span><span>{{ c.count }} photographs</span></div>
+<div style="position:relative;aspect-ratio:4/5;overflow:hidden;background:{{ c.color }}"><img src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" draggable="false" style="width:100%;height:100%;object-fit:cover;filter:{{ c.filt }};transform:{{ c.zoom }};transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s ease"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(32,30,29,.26) 30%,transparent 32%);background-size:3px 3px;mix-blend-mode:multiply;opacity:{{ c.dots }};transition:opacity .5s ease"></div></div>
+<div>
+<h3 style="margin:0 0 4px;font-size:clamp(28px,3vw,44px);line-height:.95;letter-spacing:-0.03em;text-transform:uppercase">{{ c.title }}</h3>
+<p style="margin:0;font-size:14px">{{ c.where }}</p>
+</div>
+<span style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Open collection →</span>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section id="about" data-screen-label="About" style="display:grid;grid-template-columns:{{ aboutGrid }};border-bottom:2px solid var(--color-text)">
+<div data-reveal="1" style="padding:clamp(16px,2.5vw,32px)">
+<div style="aspect-ratio:4/5;width:100%;max-width:520px"><image-slot id="about-portrait-b" shape="rect" placeholder="Portrait of Tamzeed — drop image" style="width:100%;height:100%"></image-slot></div>
+</div>
+<div data-reveal="1" style="border-left:2px solid var(--color-text);display:flex;flex-direction:column">
+<h2 style="margin:0;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 24px;font-size:clamp(40px,6vw,96px);line-height:.9;letter-spacing:-0.04em;text-transform:uppercase">About</h2>
+<div style="padding:0 clamp(16px,2.5vw,32px) 40px;max-width:640px">
+<p style="margin:0 0 20px;font-size:19px;line-height:1.5;text-wrap:pretty"><span style="border-bottom:1px dashed var(--color-neutral-500)">I’m Tamzeed, a hobbyist photographer based in Vancouver. Most weekends I’m on a trail somewhere in the Coast Mountains. When I travel, I walk cities until I’ve lost the map.</span></p>
+<p style="margin:0;font-size:19px;line-height:1.5;font-weight:600;text-wrap:pretty"><span style="border-bottom:1px dashed var(--color-neutral-500)">I try to photograph places the way they felt to stand in. That usually means waiting for weather, and keeping the edit light.</span></p>
+</div>
+<div style="margin-top:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--color-text)">
+<div style="padding:16px clamp(16px,2.5vw,32px)"><h6 style="margin:0 0 6px">Based in</h6><p style="margin:0;font-weight:600">Vancouver, BC</p></div>
+<div style="padding:16px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text)"><h6 style="margin:0 0 6px">Camera</h6><p style="margin:0;font-weight:600">Fujifilm FinePix JX560</p></div>
+<div style="padding:16px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text)"><h6 style="margin:0 0 6px">Shoots</h6><p style="margin:0;font-weight:600">Landscape, street, travel</p></div>
+</div>
+</div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="display:grid;grid-template-columns:{{ aboutGrid }}">
+<div data-reveal="1" style="background:var(--color-accent);color:var(--color-bg);padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px);display:flex;flex-direction:column;gap:32px">
+<h2 style="margin:0;font-size:clamp(44px,6.5vw,104px);line-height:.88;letter-spacing:-0.045em;text-transform:uppercase;color:var(--color-bg)">Prints available on request.</h2>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:17px;font-weight:600">
+<a href="mailto:tamzeed.q@gmail.com" style="color:var(--color-bg)">tamzeed.q@gmail.com</a>
+<a href="https://instagram.com/izuaq" target="_blank" rel="noopener" style="color:var(--color-bg)">Instagram — @izuaq</a>
+</div>
+<p style="margin:0;font-size:14px;max-width:42ch">For licensing, tell me which photograph and where it will be used.</p>
+</div>
+<form data-reveal="1" onSubmit="{{ submit }}" style="padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px);display:flex;flex-direction:column;gap:20px;max-width:640px;width:100%">
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<h3 style="margin:0 0 8px;text-transform:uppercase;letter-spacing:-0.02em">Send a message</h3>
+<div class="field"><label for="b-name">Name</label><input id="b-name" class="input" name="name" required autocomplete="name" style="width:100%"></div>
+<div class="field"><label for="b-email">Email</label><input id="b-email" class="input" type="email" name="email" required autocomplete="email" style="width:100%"></div>
+<div class="field"><label for="b-msg">Message</label><textarea id="b-msg" class="input" name="message" rows="5" required style="width:100%;resize:vertical;font-family:inherit"></textarea></div>
+<button class="btn btn-primary" type="submit" style="justify-content:space-between;width:100%;padding:14px 16px">Send message <span aria-hidden="true">→</span></button>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:24px;font-weight:800;text-transform:uppercase">Thank you. I’ll write back soon.</p></sc-if>
+</form>
+</section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isAll }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="All collections">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:2px solid var(--color-text)">
+<h1 data-reveal="1" style="grid-column:span 3;margin:0;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 24px;font-size:clamp(56px,10vw,168px);line-height:.85;letter-spacing:-0.045em;text-transform:uppercase">Collections</h1>
+<div style="padding:24px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);display:flex;flex-direction:column;justify-content:flex-end;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase"><span style="color:var(--color-accent-700)">Index</span><span>{{ colCount }} collections</span><span>{{ photoCount }} photographs</span></div>
+</div>
+<sc-for list="{{ collections }}" as="c" hint-placeholder-count="3">
+<article data-reveal="1" role="button" tabindex="0" aria-label="{{ c.label }}" onClick="{{ c.open }}" onKeyDown="{{ c.key }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="cursor:pointer;display:grid;grid-template-columns:{{ rowGrid }};border-bottom:2px solid var(--color-text)" style-hover="background:var(--color-neutral-200)">
+<div style="padding:clamp(16px,2.5vw,32px);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">{{ c.num }}</div>
+<div style="padding:clamp(16px,2.5vw,32px);border-left:{{ rowBl }};border-top:{{ rowBt }};display:flex;flex-direction:column;justify-content:space-between;gap:24px">
+<div>
+<h2 style="margin:0 0 8px;font-size:clamp(40px,6vw,96px);line-height:.9;letter-spacing:-0.04em;text-transform:uppercase">{{ c.title }}</h2>
+<p style="margin:0;font-size:15px;font-weight:600">{{ c.where }}</p>
+</div>
+<p style="margin:0;font-size:15px;line-height:1.5;max-width:46ch;text-wrap:pretty"><span style="border-bottom:1px dashed var(--color-neutral-500)">{{ c.blurb }}</span></p>
+</div>
+<div style="padding:clamp(16px,2.5vw,32px);border-left:{{ rowBl }};border-top:{{ rowBt }};display:flex;flex-direction:column;justify-content:space-between;gap:16px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">
+<span>{{ c.count }} photographs<br>{{ c.years }}</span>
+<span style="color:var(--color-accent-700)">Open collection →</span>
+</div>
+<div style="padding:clamp(16px,2.5vw,32px);border-left:{{ rowBl }};border-top:{{ rowBt }}">
+<div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:{{ c.color }}"><img src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" draggable="false" style="width:100%;height:100%;object-fit:cover;filter:{{ c.filt }};transform:{{ c.zoom }};transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s ease"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(32,30,29,.26) 30%,transparent 32%);background-size:3px 3px;mix-blend-mode:multiply;opacity:{{ c.dots }};transition:opacity .5s ease"></div></div>
+</div>
+</article>
+</sc-for>
+</main>
+</sc-if>
+
+<sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Gallery">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:2px solid var(--color-text)">
+<a href="#collections" onClick="{{ backToCollections }}" style="grid-column:1 / -1;padding:14px clamp(16px,2.5vw,32px);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;color:var(--color-text);border-bottom:2px solid var(--color-text)" style-hover="background:var(--color-neutral-200)">← All collections</a>
+<h1 data-reveal="1" style="grid-column:span 3;margin:0;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 24px;font-size:clamp(56px,10vw,168px);line-height:.85;letter-spacing:-0.045em;text-transform:uppercase">{{ col.title }}</h1>
+<div style="padding:24px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);display:flex;flex-direction:column;justify-content:flex-end;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase"><span style="color:var(--color-accent-700)">{{ col.num }}</span><br>{{ col.count }} photographs<br>{{ col.where }}</div>
+<p style="grid-column:1 / -1;margin:0;padding:16px clamp(16px,2.5vw,32px);border-top:2px solid var(--color-text);font-size:17px;max-width:70ch"><span style="border-bottom:1px dashed var(--color-neutral-500)">{{ col.blurb }}</span></p>
+</div>
+<div style="display:flex;align-items:stretch;overflow:hidden;border-bottom:2px solid var(--color-text)">
+<sc-for list="{{ gCols }}" as="column" hint-placeholder-count="2">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:clamp(16px,2.5vw,32px);padding:clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text);margin-left:-2px">
+<sc-for list="{{ column }}" as="p" hint-placeholder-count="3">
+<figure data-reveal="1" style="margin:0">
+<div role="button" tabindex="0" aria-label="{{ p.label }}" onClick="{{ p.open }}" onKeyDown="{{ p.key }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style="cursor:zoom-in;position:relative;overflow:hidden;aspect-ratio:{{ p.ratio }};background:{{ p.color }}">
+<img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" draggable="false" style="width:100%;height:100%;object-fit:cover;filter:{{ p.filt }};transform:{{ p.zoom }};transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s ease">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(32,30,29,.26) 30%,transparent 32%);background-size:3px 3px;mix-blend-mode:multiply;opacity:{{ p.dots }};transition:opacity .5s ease"></div>
+</div>
+<figcaption style="display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:14px;font-weight:600;color:var(--color-text);opacity:{{ p.capOpacity }};transition:opacity .3s ease"><span>{{ p.title }}</span><span>{{ p.year }}</span></figcaption>
+</figure>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ hasNextCol }}" hint-placeholder-val="{{ true }}">
+<a href="#next" onClick="{{ nextCol.open }}" style="display:flex;justify-content:space-between;align-items:end;gap:24px;padding:clamp(48px,7vw,96px) clamp(16px,2.5vw,32px) 32px;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+<span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(40px,6vw,96px);line-height:.9;letter-spacing:-0.04em;text-transform:uppercase">{{ nextCol.title }}</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Next collection →</span>
+</a>
+</sc-if>
+</main>
+</sc-if>
+
+<footer style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--color-text);margin-top:-2px;position:relative;background:var(--color-bg);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">
+<span style="grid-column:span 2;padding:16px clamp(16px,2.5vw,32px)">© 2026 Tamzeed Quazi</span>
+<span style="grid-column:span 2;padding:16px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-text)">Vancouver, BC</span>
+</footer>
+</div>
+
+<div role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="{{ lbHidden }}" onTouchStart="{{ touchStart }}" onTouchEnd="{{ touchEnd }}" style="position:fixed;inset:0;z-index:50;background:var(--color-text);color:var(--color-bg);display:flex;flex-direction:column;opacity:{{ lbOpacity }};pointer-events:{{ lbPointer }};transition:opacity .3s ease">
+<div style="display:grid;grid-template-columns:1fr auto;border-bottom:2px solid var(--color-neutral-800);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">
+<span style="padding:16px clamp(16px,2.5vw,32px)">{{ lb.counter }}</span>
+<button type="button" onClick="{{ closeLb }}" aria-label="Close viewer (Esc)" style="background:none;border:0;border-left:2px solid var(--color-neutral-800);color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;padding:16px 24px;text-align:left">Close ×</button>
+</div>
+<div style="flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vw,40px)">
+<img src="{{ lb.src }}" alt="{{ lb.alt }}" draggable="false" style="max-width:100%;max-height:100%;object-fit:contain;opacity:{{ lbImgOpacity }};transform:{{ lbImgTf }};transition:opacity .25s ease,transform .4s cubic-bezier(.2,.7,.2,1)">
+<button type="button" onClick="{{ prev }}" aria-label="Previous photo" style="position:absolute;left:0;top:0;bottom:0;width:25%;background:none;border:0;cursor:w-resize"></button>
+<button type="button" onClick="{{ next }}" aria-label="Next photo" style="position:absolute;right:0;top:0;bottom:0;width:25%;background:none;border:0;cursor:e-resize"></button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--color-neutral-800);font-size:13px">
+<span style="grid-column:span 2;padding:14px clamp(16px,2.5vw,32px);font-weight:800;text-transform:uppercase;letter-spacing:0.02em">{{ lb.title }}</span>
+<span style="padding:14px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-neutral-800);color:var(--color-neutral-300)">{{ lb.loc }}, {{ lb.year }}</span>
+<span style="padding:14px clamp(16px,2.5vw,32px);border-left:2px solid var(--color-neutral-800);color:var(--color-neutral-300)">{{ lb.cam }}</span>
+</div>
+<div style="position:absolute;left:clamp(16px,2.5vw,32px);right:clamp(16px,2.5vw,32px);bottom:56px;display:flex;justify-content:space-between;pointer-events:none;font-size:20px;font-weight:800" aria-hidden="true"><span>←</span><span>→</span></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;colorOnMobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;dotScreen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;restingSaturation&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.45,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  muteFx(on) {
+    const sat = this.props.restingSaturation ?? 0.45;
+    const dotsOn = this.props.dotScreen !== false;
+    return { filt: on ? 'none' : `saturate(${sat}) contrast(1.06) brightness(.98)`, dots: on || !dotsOn ? 0 : 1 };
+  }
+  state = { view: 'home', col: null, lb: null, lbList: [], lbOpen: false, fade: false, dir: 0, hov: null, w: window.innerWidth, sent: false, leaving: false, scrolled: false };
+
+  P = {
+    p01: { w: 1539, h: 1022, c: '#61a0d2', title: 'Han River, late afternoon', loc: 'Seoul', year: '2025', cam: '[Camera]', alt: 'Cyclists on a riverside path along the Han River, apartment towers across the water under a clear blue sky' },
+    p02: { w: 1800, h: 1196, c: '#3b2f2c', title: 'Signs over the alley', loc: 'Tokyo', year: '2025', cam: '[Camera]', alt: 'A narrow street lined with dense shop signs and neon, seen from below against a cloudy sky' },
+    p03: { w: 1800, h: 1344, c: '#505c24', title: 'The golden shachi', loc: 'Japan [confirm]', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'A gilded fish ornament on a green castle roof overlooking a park and a cluster of city towers' },
+    p04: { w: 1800, h: 1344, c: '#4a3a30', title: 'Red barn, dry field', loc: 'British Columbia [confirm]', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'A weathered red barn and open shed at the edge of a dry field, backed by tall evergreens' },
+    p05: { w: 1800, h: 1344, c: '#20202e', title: 'Last light on the water', loc: 'Seoul [confirm]', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'The sun setting behind a band of dark cloud over open water, a long low pier on the horizon' },
+    p06: { w: 1350, h: 1800, c: '#4a4a2a', title: 'Meadow, weather moving in', loc: 'Panorama Ridge, BC', year: '2025', cam: '[Camera]', alt: 'An autumn alpine meadow with a small lake, snow-dusted peaks and heavy clouds above' },
+    p07: { w: 1800, h: 1344, c: '#8fa2b8', title: 'Clearing over the ridge', loc: 'Panorama Ridge, BC', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'Bright cumulus clouds lifting off a snow-capped peak, dark silhouetted firs in the foreground' },
+    p08: { w: 1800, h: 1344, c: '#3a4040', title: 'Two lakes under cloud', loc: 'Panorama Ridge, BC', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'Two alpine lakes in a forested basin below a mountainside, low cloud resting on the ridge' },
+    p09: { w: 1800, h: 1344, c: '#4d4a4b', title: 'First snow on the basin', loc: 'Panorama Ridge, BC', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'A grey lake beneath snow-dusted slopes and firs, mist hanging over the hills' },
+    p10: { w: 1800, h: 1344, c: '#5d626a', title: 'Grey water', loc: 'Panorama Ridge, BC', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'A pale lake curving through a dark meadow under a flat overcast sky' },
+    p11: { w: 1800, h: 1344, c: '#585a59', title: 'Into the fog', loc: 'Panorama Ridge, BC', year: '2025', cam: 'Fujifilm FinePix JX560', alt: 'A line of fir trees fading into dense fog above a dark meadow' },
+    p12: { w: 1200, h: 1800, c: '#5a5a3a', title: 'On the way down', loc: 'Panorama Ridge, BC', year: '2025', cam: '[Camera]', alt: 'A hiker in a black rain jacket checks his watch on a forest trail lined with firs and yellow autumn leaves' }
+  };
+  FEATURED = ['p02', 'p06', 'p03', 'p10', 'p12', 'p01', 'p07', 'p04', 'p11', 'p05'];
+  LAYOUT = [['1 / 8', '0'], ['9 / 13', '22%'], ['2 / 7', '0'], ['7 / 13', '18%'], ['1 / 5', '0'], ['6 / 12', '10%'], ['1 / 9', '0'], ['9 / 13', '30%'], ['3 / 10', '0'], ['10 / 13', '16%']];
+  C = [
+    { id: 'panorama', title: 'Panorama Ridge', where: 'Garibaldi Provincial Park, British Columbia', cover: 'p10', ids: ['p08', 'p06', 'p07', 'p09', 'p10', 'p11', 'p12'], blurb: 'Two days on the trail as the season turned. Fog most of the way up, then the lakes opened for about ten minutes.' },
+    { id: 'tokyo', title: 'Tokyo', where: 'Japan', cover: 'p02', ids: ['p02', 'p03'], blurb: 'Walking until my feet gave out. Signs, alleys, and one very gold fish.' },
+    { id: 'seoul', title: 'Seoul', where: 'South Korea', cover: 'p01', ids: ['p01', 'p05'], blurb: 'Mornings along the river, and evenings watching it go dark.' }
+  ];
+
+  reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  componentDidMount() {
+    this.onKey = e => {
+      if (!this.state.lbOpen) return;
+      if (e.key === 'Escape') this.closeLb();
+      else if (e.key === 'ArrowRight') this.step(1);
+      else if (e.key === 'ArrowLeft') this.step(-1);
+    };
+    this.onScroll = () => {
+      const y = window.scrollY;
+      const s = y > window.innerHeight * 0.85;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+      if (this.reduced) return;
+      const el = document.querySelector('[data-parallax]');
+      if (el && y < window.innerHeight * 1.2) el.style.transform = `translate3d(0,${y * 0.3}px,0)`;
+    };
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onCtx = e => { if (e.target && e.target.tagName === 'IMG') e.preventDefault(); };
+    this.onMove = e => {
+      const cur = document.querySelector('[data-cursor-el]');
+      if (!cur || this.state.lbOpen || matchMedia('(pointer: coarse)').matches) return;
+      const t = e.target.closest && e.target.closest('[data-cursor]');
+      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+      if (t) { cur.textContent = t.getAttribute('data-cursor'); cur.style.opacity = 1; cur.style.transform = 'scale(1)'; }
+      else { cur.style.opacity = 0; cur.style.transform = 'scale(.4)'; }
+    };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('mousemove', this.onMove);
+    document.addEventListener('contextmenu', this.onCtx);
+    this.reveal();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('mousemove', this.onMove);
+    document.removeEventListener('contextmenu', this.onCtx);
+    this.io && this.io.disconnect();
+  }
+  componentDidUpdate(pp, ps) {
+    if (ps.view !== this.state.view || ps.col !== this.state.col) this.reveal();
+  }
+  reveal() {
+    if (this.reduced || !('IntersectionObserver' in window)) return;
+    if (!this.io) this.io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) { en.target.style.opacity = 1; en.target.style.transform = 'none'; this.io.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    requestAnimationFrame(() => {
+      let i = 0;
+      document.querySelectorAll('[data-reveal]:not([data-rv])').forEach(el => {
+        el.setAttribute('data-rv', '1');
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0 && this.state.view === 'home' && r.top < 0) return;
+        el.style.opacity = 0; el.style.transform = 'translateY(28px)';
+        el.style.transition = `opacity 1s cubic-bezier(.2,.7,.2,1) ${(i++ % 3) * 90}ms, transform 1.1s cubic-bezier(.2,.7,.2,1) ${(i % 3) * 90}ms`;
+        this.io.observe(el);
+      });
+    });
+  }
+
+  photo(id) { const p = this.P[id]; return { id, src: `photos/${id}.jpg`, ...p }; }
+  openLb(list, i) {
+    document.body.style.overflow = 'hidden';
+    this.setState({ lbList: list, lb: i, lbOpen: true, fade: false, dir: 0 });
+    const cur = document.querySelector('[data-cursor-el]'); if (cur) cur.style.opacity = 0;
+  }
+  closeLb = () => { document.body.style.overflow = ''; this.setState({ lbOpen: false }); };
+  step(d) {
+    const n = this.state.lbList.length; if (n < 2 || this.state.fade) return;
+    this.setState({ fade: true, dir: d });
+    setTimeout(() => {
+      const lb = (this.state.lb + d + n) % n;
+      const nx = this.state.lbList[(lb + d + n) % n]; if (nx) { const im = new Image(); im.src = `photos/${nx}.jpg`; }
+      this.setState({ lb, fade: false, dir: -d });
+      requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ dir: 0 })));
+    }, this.reduced ? 0 : 240);
+  }
+  transition(fn) {
+    if (this.reduced) { fn(); window.scrollTo(0, 0); return; }
+    this.setState({ leaving: true });
+    setTimeout(() => { fn(); window.scrollTo(0, 0); requestAnimationFrame(() => this.setState({ leaving: false })); }, 320);
+  }
+  openAll() { this.transition(() => this.setState({ view: 'all', col: null })); }
+  openCol(id) { this.transition(() => this.setState({ view: 'gallery', col: id })); }
+  goSection(id) {
+    const go = () => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (id === 'top' ? 0 : 40), behavior: this.reduced ? 'auto' : 'smooth' }); };
+    if (this.state.view !== 'home') { this.transition(() => this.setState({ view: 'home', col: null })); setTimeout(go, 520); }
+    else go();
+  }
+  tile(id, list, i) {
+    const p = this.photo(id), h = this.state.hov === id;
+    const key = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.openLb(list, i); } };
+    return {
+      ...p, ratio: `${p.w} / ${p.h}`, color: p.c,
+      label: `Open ${p.title}, ${p.loc}, ${p.year}`,
+      open: () => this.openLb(list, i), key,
+      enter: () => this.setState({ hov: id }), leave: () => this.setState({ hov: null }),
+      zoom: h && !this.reduced ? 'scale(1.035)' : 'scale(1)',
+      ...this.muteFx(h || (this.state.w < 760 && this.props.colorOnMobile !== false)),
+      stripH: this.state.w < 760 ? '56vh' : '68vh',
+      capOpacity: h || this.state.w < 760 ? 1 : 0, capY: h || this.state.w < 760 ? '0' : '6px'
+    };
+  }
+
+  renderVals() {
+    const s = this.state, narrow = s.w < 760, mid = s.w < 1100;
+    const featured = this.FEATURED.map((id, i) => {
+      const t = this.tile(id, this.FEATURED, i), L = this.LAYOUT[i];
+      return { ...t, span: narrow ? '1 / -1' : L[0], offset: narrow ? '0' : L[1] };
+    });
+    const collections = this.C.map((c, i) => {
+      const p = this.photo(c.cover);
+      const ch = s.hov === 'col:' + c.id;
+      return { ...c, ...this.muteFx(ch), zoom: ch && !this.reduced ? 'scale(1.04)' : 'scale(1)',
+        enter: () => this.setState({ hov: 'col:' + c.id }), leave: () => this.setState({ hov: null }),
+        num: String(i + 1).padStart(2, '0'), count: c.ids.length, years: (() => { const ys = [...new Set(c.ids.map(id => this.P[id].year))].sort(); return ys.length > 1 ? ys[0] + '–' + ys[ys.length - 1] : ys[0]; })(), src: p.src, alt: p.alt, color: p.c, label: `Open collection ${c.title}`,
+        open: () => this.openCol(c.id), key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.openCol(c.id); } } };
+    });
+    const ci = Math.max(0, this.C.findIndex(c => c.id === s.col));
+    const col = collections[ci];
+    const nCols = narrow ? 1 : 2, gCols = Array.from({ length: nCols }, () => []), hts = Array(nCols).fill(0);
+    col.ids.forEach((id, i) => {
+      const t = this.tile(id, col.ids, i); const k = hts.indexOf(Math.min(...hts));
+      gCols[k].push(t); hts[k] += t.h / t.w;
+    });
+    const fn = narrow ? 1 : mid ? 2 : 3, fCols = Array.from({ length: fn }, () => []), fh = Array(fn).fill(0);
+    featured.forEach((t, i) => { const k = fh.indexOf(Math.min(...fh)); fCols[k].push({ ...t, num: String(i + 1).padStart(2, '0') }); fh[k] += t.h / t.w; });
+    const nextCol = collections[(ci + 1) % collections.length];
+    const cur = s.lbList[s.lb] ? this.photo(s.lbList[s.lb]) : this.photo('p08');
+    const onHero = s.view === 'home' && !s.scrolled;
+    return {
+      treat: ({ 'Process plates': 'cmyk', 'Halftone': 'halftone', 'Clean': '' })[this.props.imageTreatment ?? 'Halftone'] ?? 'halftone',
+      hero: { dots: this.props.dotScreen !== false ? 1 : 0 },
+      isHome: s.view === 'home', isGallery: s.view === 'gallery', isAll: s.view === 'all',
+      homeCollections: collections.slice(0, narrow ? 3 : 3), colCount: collections.length,
+      photoCount: new Set(this.C.flatMap(c => c.ids)).size,
+      rowGrid: narrow ? '1fr' : 'minmax(0,1fr) minmax(0,5fr) minmax(0,2fr) minmax(0,4fr)',
+      rowBl: narrow ? '0' : '2px solid var(--color-text)', rowBt: narrow ? '2px solid var(--color-text)' : '0',
+      pageOpacity: s.leaving ? 0 : 1,
+      navColor: onHero ? 'var(--color-bg)' : 'var(--color-text)',
+      navBg: onHero ? 'transparent' : 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
+      goHome: e => { e.preventDefault(); this.goSection('top'); },
+      navWork: e => { e.preventDefault(); this.goSection('work'); },
+      navCollections: e => { e.preventDefault(); this.openAll(); },
+      navAbout: e => { e.preventDefault(); this.goSection('about'); },
+      navContact: e => { e.preventDefault(); this.goSection('contact'); },
+      backToCollections: e => { e.preventDefault(); this.openAll(); },
+      cue: React.createElement('span', { 'aria-hidden': true, style: { display: 'block', width: 1, height: 36, background: 'currentColor', animation: this.reduced ? 'none' : 'cue 2.4s ease-in-out infinite' } }),
+      featured, fCols, featuredCount: featured.length, narrow, wide: !narrow,
+      stripRef: this.stripRef || (this.stripRef = React.createRef()),
+      stripPrev: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: -this.stripRef.current.clientWidth * 0.7, behavior: this.reduced ? 'auto' : 'smooth' }),
+      stripNext: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: this.stripRef.current.clientWidth * 0.7, behavior: this.reduced ? 'auto' : 'smooth' }),
+      colGrid3: narrow ? '1fr' : 'repeat(3,minmax(0,1fr))', collections, col, gCols, nextCol, hasNextCol: collections.length > 1,
+      colGrid: narrow ? '1fr' : 'minmax(0,7fr) minmax(0,5fr)',
+      aboutGrid: narrow ? '1fr' : 'minmax(0,5fr) minmax(0,7fr)',
+      submit: e => { e.preventDefault(); this.setState({ sent: true }); },
+      sent: s.sent, notSent: !s.sent,
+      lb: { ...cur, counter: `${(s.lb ?? 0) + 1} / ${s.lbList.length || 1}` },
+      lbHidden: s.lbOpen ? 'false' : 'true', lbOpacity: s.lbOpen ? 1 : 0, lbPointer: s.lbOpen ? 'auto' : 'none',
+      lbImgOpacity: s.fade ? 0 : 1,
+      lbImgTf: s.dir === 0 ? 'translateX(0)' : `translateX(${s.dir * -24}px)`,
+      closeLb: this.closeLb, prev: () => this.step(-1), next: () => this.step(1),
+      touchStart: e => { this.tx = e.touches[0].clientX; },
+      touchEnd: e => { const dx = e.changedTouches[0].clientX - (this.tx ?? 0); if (Math.abs(dx) > 50) this.step(dx < 0 ? 1 : -1); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

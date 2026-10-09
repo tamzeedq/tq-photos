@@ -1,0 +1,122 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Masonry from '../../components/Masonry.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { getGalleries, type Gallery } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const galleries = await getGalleries();
+  return galleries.map((g, i) => ({
+    params: { slug: g.slug },
+    props: {
+      gallery: g,
+      next: galleries.length > 1 ? galleries[(i + 1) % galleries.length] : undefined,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  gallery: Gallery;
+  next?: Gallery;
+}
+const { gallery: g, next } = Astro.props;
+
+const pageUrl = new URL(`/collections/${g.slug}`, Astro.site).href;
+const creator = { '@type': 'Person', name: 'Tamzeed Quazi' };
+const associatedMedia = await Promise.all(
+  g.photos.map(async (p) => {
+    const img = await getImage({ src: p.image, width: Math.min(1600, p.image.width), format: 'jpeg' });
+    return {
+      '@type': 'ImageObject',
+      name: p.title,
+      description: p.alt,
+      caption: p.alt,
+      contentUrl: new URL(img.src, Astro.site).href,
+      contentLocation: { '@type': 'Place', name: p.location },
+      dateCreated: p.year,
+      creator,
+      copyrightHolder: creator,
+    };
+  }),
+);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: g.title,
+  description: g.blurb || g.where,
+  url: pageUrl,
+  author: creator,
+  associatedMedia,
+};
+---
+
+<Base title={g.title} description={g.blurb || g.where} ogImage={g.cover.image} jsonLd={jsonLd}>
+  <main>
+    <SectionHeader as="h1" title={g.title}>
+      <a slot="before" href="/collections" class="back span-all rule-b label">← All collections</a>
+      <span class="t-accent">{g.num}</span>
+      <span>{g.count} photographs</span>
+      <span>{g.where}</span>
+      <div slot="after" class="blurb-row span-all rule-t">
+        <p class="blurb"><span class="placeholder-copy">{g.blurb}</span></p>
+      </div>
+    </SectionHeader>
+
+    <div class="rule-b">
+      <Masonry photos={g.photos} group="gallery" variant="gallery" />
+    </div>
+
+    {
+      next && (
+        <a href={`/collections/${next.slug}`} class="next">
+          <span class="next-title t-h2">{next.title}</span>
+          <span class="label t-accent">Next collection →</span>
+        </a>
+      )
+    }
+  </main>
+  <Lightbox slot="overlay" group="gallery" photos={g.photos} />
+</Base>
+
+<style>
+  .back {
+    padding: 14px var(--gutter);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .back:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
+  }
+  .blurb-row {
+    padding: 16px var(--gutter);
+  }
+  .blurb {
+    font-size: 17px;
+    max-width: 70ch;
+  }
+  .next {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px 24px;
+    padding: var(--section-top) var(--gutter) 32px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .next:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
+  }
+  .next-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+  }
+  .next .label {
+    flex: none;
+  }
+</style>

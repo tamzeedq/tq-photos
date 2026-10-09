@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+---
+
+<Base title="Not found" description="That page doesn't exist — it may have moved.">
+  <main>
+    <SectionHeader as="h1" title="Not found">
+      <span class="t-accent">404</span>
+      <span>Page not found</span>
+      <div slot="after" class="body span-all rule-t">
+        <p>That page doesn't exist — it may have moved.</p>
+        <a href="/" class="btn btn-primary">← Back to home</a>
+      </div>
+    </SectionHeader>
+  </main>
+</Base>
+
+<style>
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding: 24px var(--gutter);
+    font-size: 17px;
+  }
+</style>

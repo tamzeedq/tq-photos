@@ -1,0 +1,101 @@
+---
+const links = [
+  { href: '/#highlights', label: 'Highlights' },
+  { href: '/collections', label: 'Collections' },
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+
+<nav aria-label="Primary" class="nav grid4 rule-b">
+  <a href="/" class="brand span2"><span class="square" aria-hidden="true"></span>Tamzeed Quazi</a>
+  <div class="links span2 rule-l">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          class="label"
+          aria-current={l.href === '/collections' && path.startsWith('/collections') ? 'page' : undefined}
+        >
+          {l.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    align-items: stretch;
+    background: var(--color-bg);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px var(--gutter);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .square {
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent);
+    flex: none;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .links a {
+    flex: 1;
+    padding: 16px 14px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .links a:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
+  }
+
+  /* Phones: brand on its own row, then one ruled row of content-sized links. */
+  @media (max-width: 759px) {
+    .brand,
+    .links {
+      grid-column: 1 / -1;
+    }
+    .brand {
+      padding-block: 14px;
+    }
+    .links {
+      flex-wrap: nowrap;
+      border-left: 0;
+      border-top: var(--rule);
+      overflow: hidden;
+    }
+    .links a {
+      flex: 1 1 auto;
+      padding: 12px 8px;
+      margin-left: -2px;
+      border-left: var(--rule);
+      letter-spacing: 0.1em;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+  @media (max-width: 379px) {
+    .links a {
+      padding-inline: 5px;
+      letter-spacing: 0.06em;
+    }
+  }
+</style>

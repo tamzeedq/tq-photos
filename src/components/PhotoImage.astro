@@ -1,0 +1,41 @@
+---
+/**
+ * A photo inside the `.photo` treatment wrapper (muted + halftone at rest;
+ * cleared by a `.hover-root` ancestor). The placeholder colour paints first
+ * and the box reserves its aspect ratio to avoid layout shift.
+ */
+import { Picture } from 'astro:assets';
+import type { Photo } from '../lib/content';
+
+interface Props {
+  photo: Photo;
+  /** `sizes` attribute for the responsive image. */
+  sizes: string;
+  /** CSS aspect-ratio override, e.g. "4 / 5". Defaults to the intrinsic ratio. */
+  aspect?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+}
+
+const { photo, sizes, aspect, loading = 'lazy', fetchpriority, class: cls } = Astro.props;
+const { image } = photo;
+const ratio = aspect ?? `${image.width} / ${image.height}`;
+const widths = [640, 1080, 1600, 2000].filter((w) => w <= image.width);
+if (!widths.includes(image.width) && image.width < 2000) widths.push(image.width);
+---
+
+<div class:list={['photo', cls]} style={`aspect-ratio:${ratio};--ph:${photo.placeholder}`}>
+  <Picture
+    src={image}
+    alt={photo.alt}
+    widths={widths}
+    sizes={sizes}
+    formats={['avif', 'webp']}
+    fallbackFormat="jpg"
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+    draggable="false"
+  />
+</div>

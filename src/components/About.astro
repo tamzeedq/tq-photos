@@ -1,0 +1,127 @@
+---
+/**
+ * About: portrait slot (5fr) + text column (7fr, ruled left; ruled top < 760px).
+ * Copy in .placeholder-copy is written on Tamzeed's behalf — confirm before launch.
+ */
+---
+
+<section id="about" class="about rule-b">
+  <div class="portrait-cell" data-reveal>
+    {
+      /*
+       * Portrait — to come. Once Tamzeed supplies one, add it as a photo entry
+       * (or import the asset) and replace the placeholder <div> below with:
+       *   <PhotoImage photo={portrait} aspect="4 / 5" sizes="(max-width: 759px) 100vw, 42vw" />
+       * inside .portrait (import PhotoImage from './PhotoImage.astro' and
+       * `const portrait = await getPhoto('…')` from '../lib/content').
+       */
+    }
+    <div class="portrait">
+      <div class="portrait-placeholder label">Portrait — to come</div>
+    </div>
+  </div>
+
+  <div class="text" data-reveal>
+    <h2 class="t-h2">About</h2>
+    <div class="copy">
+      <p>
+        <span class="placeholder-copy"
+          >I’m Tamzeed, a hobbyist photographer based in Vancouver. Most weekends I’m on a trail somewhere in the
+          Coast Mountains. When I travel, I walk cities until I’ve lost the map.</span
+        >
+      </p>
+      <p class="strong">
+        <span class="placeholder-copy"
+          >I try to photograph places the way they felt to stand in. That usually means waiting for weather, and
+          keeping the edit light.</span
+        >
+      </p>
+    </div>
+    <div class="stats rule-t">
+      <div>
+        <h6>Based in</h6>
+        <p class="value">Vancouver, BC</p>
+      </div>
+      <div class="rule-l">
+        <h6>Camera</h6>
+        <p class="value">Fujifilm FinePix JX560</p>
+      </div>
+      <div class="rule-l">
+        <h6>Shoots</h6>
+        <p class="value">Landscape, street, travel</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .portrait-cell {
+    padding: var(--gutter);
+  }
+  .portrait {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 520px;
+  }
+  .portrait-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--gutter);
+    background: var(--color-neutral-200);
+    border: 2px dashed var(--color-neutral-500);
+  }
+  .text {
+    border-left: var(--rule);
+    display: flex;
+    flex-direction: column;
+  }
+  h2 {
+    padding: var(--section-top) var(--gutter) 24px;
+  }
+  .copy {
+    padding: 0 var(--gutter) 40px;
+    max-width: 640px;
+  }
+  .copy p {
+    margin: 0 0 20px;
+    font-size: 19px;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  .copy p.strong {
+    margin: 0;
+    font-weight: 600;
+  }
+  .stats {
+    margin: auto 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .stats > div {
+    padding: 16px var(--gutter);
+  }
+  h6 {
+    margin: 0 0 6px;
+  }
+  .value {
+    font-weight: 600;
+  }
+
+  @media (max-width: 759px) {
+    .about {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .text {
+      border-left: 0;
+      border-top: var(--rule);
+    }
+  }
+</style>

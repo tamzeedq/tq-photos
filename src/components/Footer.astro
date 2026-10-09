@@ -1,0 +1,20 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer grid4 rule-t label">
+  <span class="span2">© {year} Tamzeed Quazi</span>
+  <span class="span2 rule-l">Vancouver, BC</span>
+</footer>
+
+<style>
+  /* margin-top:-2px so the top rule overlaps (not doubles) a preceding border-bottom. */
+  .footer {
+    position: relative;
+    margin-top: -2px;
+    background: var(--color-bg);
+  }
+  .footer span {
+    padding: 16px var(--gutter);
+  }
+</style>

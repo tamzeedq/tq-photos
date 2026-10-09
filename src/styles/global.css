@@ -1,0 +1,146 @@
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 40px; }
+/* The nav is two rows tall on phones (see Nav.astro). */
+@media (max-width: 759px) { html { scroll-padding-top: 96px; } }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0; }
+figure { margin: 0; }
+img { display: block; max-width: 100%; -webkit-user-drag: none; user-select: none; }
+
+a { color: var(--color-accent-700); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-900); }
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── Type roles ─────────────────────────────────────────────────────────── */
+.label { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.t-accent { color: var(--color-accent-700); }
+.t-hero, .t-h1, .t-h2, .t-contact, .t-h3 { font-family: var(--font-heading); font-weight: 800; text-transform: uppercase; overflow-wrap: break-word; }
+.t-hero    { font-size: var(--fs-hero);    line-height: .84; letter-spacing: -0.045em; }
+.t-h1      { font-size: var(--fs-h1);      line-height: .85; letter-spacing: -0.045em; }
+.t-h2      { font-size: var(--fs-h2);      line-height: .9;  letter-spacing: -0.04em; }
+.t-contact { font-size: var(--fs-contact); line-height: .88; letter-spacing: -0.045em; }
+.t-h3      { font-size: var(--fs-h3);      line-height: .95; letter-spacing: -0.03em; }
+
+/* Placeholder copy written on Tamzeed's behalf. Confirm before launch. */
+.placeholder-copy { border-bottom: 1px dashed var(--color-neutral-500); }
+
+/* ── Grid & rules ───────────────────────────────────────────────────────────
+   Every rule meets another rule or the viewport edge. Cells in a row use
+   border-left + margin-left:-2px inside an overflow:hidden parent; stacked
+   cells use border-top + margin-top:-2px. */
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.span2 { grid-column: span 2; }
+.span3 { grid-column: span 3; }
+.span-all { grid-column: 1 / -1; }
+.rule-b { border-bottom: var(--rule); }
+.rule-t { border-top: var(--rule); }
+.rule-l { border-left: var(--rule); }
+
+/* ── Buttons & fields (from the design system) ──────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: 800; font-size: 14px; line-height: 1.2;
+  color: var(--color-text); background: transparent;
+  border: 1px solid transparent; border-radius: 0;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); color: var(--color-bg); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); color: var(--color-text); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-wide { width: 100%; justify-content: space-between; }
+
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px;
+  font: inherit; font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: 0;
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; font-family: inherit; }
+
+/* ── Photo treatment ───────────────────────────────────────────────────────
+   .photo wraps an image: muted + halftone at rest. Any ancestor with
+   .hover-root clears it on :hover / :focus-visible. Set --zoom on the
+   hover-root to change the hover scale (default 1.035). */
+.photo {
+  position: relative; overflow: hidden;
+  background: var(--ph, var(--color-neutral-900));
+}
+.photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: var(--rest-filter);
+  transform: scale(1);
+  transition: transform .8s var(--ease-out), filter .5s ease;
+}
+.photo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: var(--dot-screen); background-size: 3px 3px;
+  mix-blend-mode: multiply; opacity: var(--dot-opacity);
+  transition: opacity .5s ease;
+}
+.hover-root:hover .photo img,
+.hover-root:focus-visible .photo img { filter: none; transform: scale(var(--zoom, 1.035)); }
+.hover-root:hover .photo::after,
+.hover-root:focus-visible .photo::after { opacity: 0; }
+
+/* Touch / narrow: full colour, no dots. */
+@media (max-width: 759px) {
+  .photo img { filter: none; }
+  .photo::after { opacity: 0; }
+}
+
+/* ── Reveal on scroll (only once JS has run; see scripts/motion.ts) ────── */
+html.js [data-reveal] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 1s var(--ease-out) var(--reveal-delay, 0ms),
+              transform 1.1s var(--ease-out) var(--reveal-delay, 0ms);
+}
+html.js [data-reveal].is-revealed { opacity: 1; transform: none; }
+
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html.js [data-reveal] { opacity: 1; transform: none; }
+  .hover-root:hover .photo img,
+  .hover-root:focus-visible .photo img { transform: none; }
+}

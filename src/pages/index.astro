@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Masonry from '../components/Masonry.astro';
+import CollectionCard from '../components/CollectionCard.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { getFeatured, getGalleries, uniquePhotoCount, yearRange } from '../lib/content';
+
+const featured = await getFeatured();
+const galleries = await getGalleries();
+const homeGalleries = galleries.slice(0, 3);
+---
+
+<Base>
+  <main>
+    <Hero />
+
+    <section id="highlights" class="rule-b">
+      <SectionHeader title="Highlights">
+        <span>{featured.length} photographs</span>
+        <span>{yearRange(featured)}</span>
+        <span class="t-accent">Colour on hover</span>
+      </SectionHeader>
+      <Masonry photos={featured} group="highlights" variant="highlight" />
+    </section>
+
+    <section id="collections" class="rule-b">
+      <SectionHeader title="Collections" infoGap="16px">
+        <span>{galleries.length} collections<br />{uniquePhotoCount(galleries)} photographs</span>
+        <a class="btn btn-secondary btn-wide" href="/collections">All collections <span aria-hidden="true">→</span></a>
+      </SectionHeader>
+      <div class="cards">
+        {homeGalleries.map((g, i) => <CollectionCard gallery={g} index={i} />)}
+      </div>
+    </section>
+
+    <About />
+    <Contact />
+  </main>
+  <Lightbox slot="overlay" group="highlights" photos={featured} />
+</Base>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: hidden;
+  }
+  @media (max-width: 759px) {
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
