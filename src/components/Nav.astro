@@ -1,20 +1,22 @@
 ---
+import { url, unbase } from '../lib/url';
+
 const links = [
   { href: '/#highlights', label: 'Highlights' },
   { href: '/collections', label: 'Collections' },
   { href: '/#about', label: 'About' },
   { href: '/#contact', label: 'Contact' },
 ];
-const path = Astro.url.pathname.replace(/\/$/, '');
+const path = unbase(Astro.url.pathname).replace(/\/$/, '');
 ---
 
 <nav aria-label="Primary" class="nav grid4 rule-b">
-  <a href="/" class="brand span2"><span class="square" aria-hidden="true"></span>Tamzeed Quazi</a>
+  <a href={url('/')} class="brand span2"><span class="square" aria-hidden="true"></span>Tamzeed Quazi</a>
   <div class="links span2 rule-l">
     {
       links.map((l) => (
         <a
-          href={l.href}
+          href={url(l.href)}
           class="label"
           aria-current={l.href === '/collections' && path.startsWith('/collections') ? 'page' : undefined}
         >

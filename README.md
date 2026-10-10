@@ -63,7 +63,12 @@ One-paragraph blurb.
 
 ## Deploy
 
-Netlify (see `netlify.toml`). The contact form uses Netlify Forms. Enable form notifications in the Netlify dashboard. Update `site` in `astro.config.mjs` and `public/robots.txt` to the real domain.
+Served at **https://tamzeedq.com/photography** by a Cloudflare Worker (static assets only, see `wrangler.jsonc`) that owns just the `tamzeedq.com/photography*` route, leaving the rest of the domain for another site.
+
+- `astro.config.mjs` sets `base: '/photography'` and writes the build to `dist/photography/`, so paths on disk match URLs. Build internal links with `url()` from `src/lib/url.ts`.
+- Cloudflare Workers Builds deploys on every push to `main` (build `npm run build`, deploy `npx wrangler deploy`, Node 22 via `.node-version`). Wrangler itself needs Node 22, so deploy through Cloudflare rather than locally on Node 20.
+- The contact form posts to Formspree (`https://formspree.io/f/xjygraqd`, set in `src/components/Contact.astro`). Submissions are emailed to the Formspree account.
+- `robots.txt` belongs at the domain root, so it isn't part of this site. When the root site exists, add `Sitemap: https://tamzeedq.com/photography/sitemap-index.xml` to its robots.txt.
 
 ## To confirm with Tamzeed
 
@@ -74,4 +79,3 @@ Netlify (see `netlify.toml`). The contact form uses Netlify Forms. Enable form n
 - Hero image (`p10`, "Grey water") isn't in any collection folder; pick a replacement or add it to Panorama Ridge
 - About section lists only the Fujifilm; the collections were also shot on a Sony NEX-3N and an iPhone 13
 - Portrait for About
-- Production domain

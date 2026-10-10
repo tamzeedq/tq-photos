@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 /**
  * One ruled row on the /collections index. The whole row is a real link.
  * Hover: neutral-200 fill; the cover clears and scales (via .hover-root).
@@ -14,7 +15,7 @@ interface Props {
 const { gallery: g } = Astro.props;
 ---
 
-<a href={`/collections/${g.slug}`} class="row hover-root rule-b" data-reveal style="--zoom:1.04">
+<a href={url(`/collections/${g.slug}`)} class="row hover-root rule-b" data-reveal style="--zoom:1.04">
   <div class="cell label t-accent">{g.num}</div>
   <div class="cell sep main">
     <div>

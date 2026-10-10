@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
@@ -30,7 +31,7 @@ const homeGalleries = galleries.slice(0, 3);
     <section id="collections" class="rule-b">
       <SectionHeader title="Collections" infoGap="16px">
         <span>{galleries.length} collections<br />{uniquePhotoCount(galleries)} photographs</span>
-        <a class="btn btn-secondary btn-wide" href="/collections">All collections <span aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary btn-wide" href={url('/collections')}>All collections <span aria-hidden="true">→</span></a>
       </SectionHeader>
       <div class="cards">
         {homeGalleries.map((g, i) => <CollectionCard gallery={g} index={i} />)}

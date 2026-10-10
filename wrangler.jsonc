@@ -1,0 +1,19 @@
+{
+  // Static-assets-only Worker serving the built site (no server code).
+  // Deployed by Cloudflare Workers Builds on every push to main:
+  //   build command:  npm run build
+  //   deploy command: npx wrangler deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tq-photos",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown /photography/* paths get the nearest 404.html (dist/photography/404.html).
+    "not_found_handling": "404-page"
+  },
+  // Only this path on the apex domain goes to this Worker; everything else on
+  // tamzeedq.com is free for another site.
+  "routes": [{ "pattern": "tamzeedq.com/photography*", "zone_name": "tamzeedq.com" }],
+  "workers_dev": false,
+  "preview_urls": false
+}

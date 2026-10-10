@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 ---
@@ -10,7 +11,7 @@ import SectionHeader from '../components/SectionHeader.astro';
       <span>Page not found</span>
       <div slot="after" class="body span-all rule-t">
         <p>That page doesn't exist — it may have moved.</p>
-        <a href="/" class="btn btn-primary">← Back to home</a>
+        <a href={url('/')} class="btn btn-primary">← Back to home</a>
       </div>
     </SectionHeader>
   </main>
