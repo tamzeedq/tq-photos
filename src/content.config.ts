@@ -2,8 +2,14 @@ import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const photos = defineCollection({
-  // One YAML file per photo; the entry id is the filename ("p08").
-  loader: glob({ pattern: '*.yaml', base: './src/content/photos' }),
+  // One YAML file per photo, grouped in a folder per collection
+  // (src/content/photos/<collection>/<id>.yaml). The entry id is the bare
+  // filename ("japan-dscf9089"), so ids stay flat and URL-hash friendly.
+  loader: glob({
+    pattern: '**/*.yaml',
+    base: './src/content/photos',
+    generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.yaml$/, ''),
+  }),
   schema: ({ image }) =>
     z.object({
       image: image(),

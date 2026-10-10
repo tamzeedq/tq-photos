@@ -16,13 +16,15 @@ Requires Node 20+. (Astro 5 is pinned because Astro 6+ needs Node 22.)
 
 ## Adding photos
 
-1. Drop the original into `src/assets/photos/` (long edge ≥ 2000px is ideal; Astro generates AVIF/WebP sizes, capped at 2000px).
-2. Add `src/content/photos/<id>.yaml`:
+Photos are grouped by collection: the image lives in `src/assets/photos/<collection>/` and its metadata in `src/content/photos/<collection>/`. The filename (without extension) is the photo id, so keep ids unique across collections (the convention is `<collection>-<original filename>`, e.g. `japan-dscf9089`).
+
+1. Export a JPEG with the long edge at 2400px and **metadata stripped** (phone photos carry GPS). Astro generates AVIF/WebP sizes from it, capped at 2000px.
+2. Save it as `src/assets/photos/japan/japan-dscf9999.jpg` and add `src/content/photos/japan/japan-dscf9999.yaml`:
 
    ```yaml
-   image: ../../assets/photos/p13.jpg
+   image: ../../../assets/photos/japan/japan-dscf9999.jpg
    title: "Title"
-   location: "Place"
+   location: "Kyoto"
    year: "2026"
    camera: "Fujifilm FinePix JX560"   # optional
    alt: "Full descriptive alt text"
@@ -30,7 +32,7 @@ Requires Node 20+. (Astro 5 is pinned because Astro 6+ needs Node 22.)
    featured: 11                        # optional: position in Highlights
    ```
 
-3. To put it in a collection, add its id to `photos:` in `src/content/collections/<slug>.md`.
+3. Add its id to `photos:` in `src/content/collections/<slug>.md`.
 
 Counts, year ranges and numbering are derived. Never type them by hand.
 
@@ -42,8 +44,8 @@ Create `src/content/collections/<slug>.md`:
 ---
 title: Vancouver Island
 where: British Columbia
-cover: p13
-photos: [p13, p14]
+cover: vancouver-island-dscf0001
+photos: [vancouver-island-dscf0001, vancouver-island-dscf0002]
 order: 4
 ---
 One-paragraph blurb.
@@ -65,10 +67,11 @@ Netlify (see `netlify.toml`). The contact form uses Netlify Forms. Enable form n
 
 ## To confirm with Tamzeed
 
-- Copy with a dashed underline (`.placeholder-copy`): tagline, About text, collection blurbs
-- p03, p04, p05 locations (marked `[confirm]`)
-- Camera for p01, p02, p06, p12 (shows "Camera unknown")
-- More photos for Tokyo and Seoul (2 each)
+- Copy with a dashed underline (`.placeholder-copy`): tagline, About text, collection blurbs (Japan, Korea, St. Marks Summit, 5040 Peak and Dumpy Dump blurbs were drafted from the photos)
+- Panorama Ridge blurb says "two days", but the photos are all from 26 Sep 2026
+- Locations marked `[confirm]` (`grep -r "confirm" src/content`)
+- Japan: the Fujifilm camera clock was reset (EXIF says 2012); year set to 2026 from the Sony shots on the same trip
+- Hero image (`p10`, "Grey water") isn't in any collection folder; pick a replacement or add it to Panorama Ridge
+- About section lists only the Fujifilm; the collections were also shot on a Sony NEX-3N and an iPhone 13
 - Portrait for About
-- Original high-res files (current ones are 1800px)
 - Production domain

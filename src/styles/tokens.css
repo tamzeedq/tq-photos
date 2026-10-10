@@ -4,9 +4,9 @@
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
   --color-text: #201e1d;
-  --color-accent: #ec3013;
-  --color-accent-600: #dd2b0f;
-  --color-accent-700: #ae1800;
+  --color-accent: #c4452f;     /* toned down from #ec3013 */
+  --color-accent-600: #ad3a26;
+  --color-accent-700: #a3341f;
   --color-accent-900: #4d170e;
   --color-neutral-200: #eae7e7;
   --color-neutral-300: #d7d3d3;
