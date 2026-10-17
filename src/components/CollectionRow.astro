@@ -29,7 +29,7 @@ const { gallery: g } = Astro.props;
     <span class="t-accent">Open collection →</span>
   </div>
   <div class="cell sep">
-    <PhotoImage photo={g.cover} aspect="4 / 3" sizes="(max-width: 759px) 100vw, 34vw" />
+    <PhotoImage photo={g.cover} aspect="4 / 3" sizes="(max-width: 759.98px) 100vw, 34vw" />
   </div>
 </a>
 
@@ -75,7 +75,14 @@ const { gallery: g } = Astro.props;
     justify-content: space-between;
     gap: 16px;
   }
-  @media (max-width: 759px) {
+  /* Mid widths: the 2fr meta column is too narrow for the letter-spaced
+     "PHOTOGRAPHS" label, so take a column's worth from the cover image. */
+  @media (min-width: 760px) and (max-width: 1099.98px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 5fr) minmax(0, 3fr) minmax(0, 3fr);
+    }
+  }
+  @media (max-width: 759.98px) {
     .row {
       grid-template-columns: minmax(0, 1fr);
     }

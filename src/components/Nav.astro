@@ -69,8 +69,23 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
     color: var(--color-text);
   }
 
+  /* Tablets: four links don't fit half the width at full spacing and would
+     wrap to a second row; keep them on one row with tighter spacing. */
+  @media (min-width: 760px) and (max-width: 1099.98px) {
+    .links {
+      flex-wrap: nowrap;
+    }
+    .links a {
+      flex: 1 1 auto;
+      padding-inline: 8px;
+      letter-spacing: 0.1em;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+
   /* Phones: brand on its own row, then one ruled row of content-sized links. */
-  @media (max-width: 759px) {
+  @media (max-width: 759.98px) {
     .brand,
     .links {
       grid-column: 1 / -1;
@@ -94,7 +109,7 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
       white-space: nowrap;
     }
   }
-  @media (max-width: 379px) {
+  @media (max-width: 379.98px) {
     .links a {
       padding-inline: 5px;
       letter-spacing: 0.06em;

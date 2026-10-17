@@ -16,7 +16,7 @@ const { title, as: Tag = 'h2', id, infoGap = '0px' } = Astro.props;
 const size = Tag === 'h1' ? 't-h1' : 't-h2';
 ---
 
-<div class="section-header grid4 rule-b">
+<div class:list={['section-header grid4 rule-b', `is-${Tag}`]}>
   <slot name="before" />
   <Tag id={id} class:list={['title span3', size]} data-reveal>{title}</Tag>
   <div class="info rule-l label" style={`gap:${infoGap}`}>
@@ -35,8 +35,16 @@ const size = Tag === 'h1' ? 't-h1' : 't-h2';
     flex-direction: column;
     justify-content: flex-end;
   }
+  /* Tablets: a quarter-width info cell is too narrow for its button, so the
+     (smaller) h2 section headings split the row half and half. */
+  @media (min-width: 760px) and (max-width: 1099.98px) {
+    .is-h2 .title,
+    .is-h2 .info {
+      grid-column: span 2;
+    }
+  }
   /* Phones: title full width, info cell stacked beneath with a top rule. */
-  @media (max-width: 759px) {
+  @media (max-width: 759.98px) {
     .title,
     .info {
       grid-column: 1 / -1;

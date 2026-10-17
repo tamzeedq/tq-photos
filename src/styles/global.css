@@ -4,7 +4,7 @@
 
 html { scroll-behavior: smooth; scroll-padding-top: 40px; }
 /* The nav is two rows tall on phones (see Nav.astro). */
-@media (max-width: 759px) { html { scroll-padding-top: 96px; } }
+@media (max-width: 759.98px) { html { scroll-padding-top: 96px; } }
 body {
   margin: 0;
   background: var(--color-bg);
@@ -82,6 +82,8 @@ a:hover { color: var(--color-accent-900); }
 .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); color: var(--color-text); }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
 .btn-wide { width: 100%; justify-content: space-between; }
+/* Let the label wrap in a narrow cell instead of overflowing; the arrow stays right. */
+.btn-wide > :first-child { min-width: 0; text-align: left; }
 
 .field > label {
   display: block; font-size: 12px; margin-bottom: 5px;
@@ -122,8 +124,9 @@ textarea.input { min-height: 90px; resize: vertical; font-family: inherit; }
 .hover-root:hover .photo::after,
 .hover-root:focus-visible .photo::after { opacity: 0; }
 
-/* Touch / narrow: full colour, no dots. */
-@media (max-width: 759px) {
+/* Touch / narrow: full colour, no dots. (x.98px upper bounds close the gap
+   fractional viewport widths like 759.5px would otherwise fall into.) */
+@media (max-width: 759.98px) {
   .photo img { filter: none; }
   .photo::after { opacity: 0; }
 }

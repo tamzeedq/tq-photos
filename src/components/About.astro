@@ -21,7 +21,7 @@ const portrait = await getPhoto('portrait');
       <PhotoImage
         photo={portrait}
         aspect="4 / 5"
-        sizes="(max-width: 759px) 167vw, min(867px, 70vw)"
+        sizes="(max-width: 759.98px) 167vw, min(867px, 70vw)"
       />
     </div>
   </div>
@@ -108,6 +108,16 @@ const portrait = await getPhoto('portrait');
   .stats > div {
     padding: 16px var(--gutter);
   }
+  /* Small phones: three columns are too tight; stack with rules between. */
+  @media (max-width: 479.98px) {
+    .stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .stats > div + div {
+      border-left: 0;
+      border-top: var(--rule);
+    }
+  }
   h6 {
     margin: 0 0 6px;
   }
@@ -115,7 +125,7 @@ const portrait = await getPhoto('portrait');
     font-weight: 600;
   }
 
-  @media (max-width: 759px) {
+  @media (max-width: 759.98px) {
     .about {
       grid-template-columns: minmax(0, 1fr);
     }
