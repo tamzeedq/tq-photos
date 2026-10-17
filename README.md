@@ -1,6 +1,6 @@
 # Tamzeed Quazi — Photography
 
-Static portfolio site built with [Astro](https://astro.build) 5. Design spec: [`design_handoff_tq_portfolio/README.md`](design_handoff_tq_portfolio/README.md).
+Static portfolio site built with [Astro](https://astro.build) 
 
 ## Develop
 

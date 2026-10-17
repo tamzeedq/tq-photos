@@ -3,21 +3,26 @@
  * About: portrait slot (5fr) + text column (7fr, ruled left; ruled top < 760px).
  * Copy in .placeholder-copy is written on Tamzeed's behalf — confirm before launch.
  */
+import PhotoImage from './PhotoImage.astro';
+import { getPhoto } from '../lib/content';
+
+const portrait = await getPhoto('portrait');
 ---
 
 <section id="about" class="about rule-b">
   <div class="portrait-cell" data-reveal>
-    {
-      /*
-       * Portrait — to come. Once Tamzeed supplies one, add it as a photo entry
-       * (or import the asset) and replace the placeholder <div> below with:
-       *   <PhotoImage photo={portrait} aspect="4 / 5" sizes="(max-width: 759px) 100vw, 42vw" />
-       * inside .portrait (import PhotoImage from './PhotoImage.astro' and
-       * `const portrait = await getPhoto('…')` from '../lib/content').
-       */
-    }
-    <div class="portrait">
-      <div class="portrait-placeholder label">Portrait — to come</div>
+    <div class="portrait hover-root">
+      {/*
+        The 4:3 portrait is cover-cropped into a 4:5 frame, so it's drawn 5/3
+        (≈1.67×) wider than the frame. `sizes` describes that drawn width, not
+        the frame's, or the browser picks a too-small file and upscales it.
+        Frame: 100vw on phones; on desktop min(520px, ~5/12 of the viewport).
+      */}
+      <PhotoImage
+        photo={portrait}
+        aspect="4 / 5"
+        sizes="(max-width: 759px) 167vw, min(867px, 70vw)"
+      />
     </div>
   </div>
 
@@ -25,15 +30,13 @@
     <h2 class="t-h2">About</h2>
     <div class="copy">
       <p>
-        <span class="placeholder-copy"
-          >I’m Tamzeed, a hobbyist photographer based in Vancouver. Most weekends I’m on a trail somewhere in the
-          Coast Mountains. When I travel, I walk cities until I’ve lost the map.</span
-        >
+        <span class="placeholder-copy">
+          I’m Tamzeed, a software developer based in Vancouver who's usually got a digicam on him. This site is where those two halves meet: a place I built to document what I’ve been up to, whether that’s travelling, hiking, or just getting through the week.
+        </span>
       </p>
       <p class="strong">
         <span class="placeholder-copy"
-          >I try to photograph places the way they felt to stand in. That usually means waiting for weather, and
-          keeping the edit light.</span
+          >I’ve always been a visual person, so I take pictures to hold on to what I see.</span
         >
       </p>
     </div>
@@ -44,7 +47,7 @@
       </div>
       <div class="rule-l">
         <h6>Camera</h6>
-        <p class="value">Fujifilm FinePix JX560</p>
+        <p class="value">Fujifilm FinePix JX560, Sony NEX-3N</p>
       </div>
       <div class="rule-l">
         <h6>Shoots</h6>
@@ -59,24 +62,21 @@
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   }
+  /* The cell stretches to the text column's height; centre the portrait in it. */
   .portrait-cell {
     padding: var(--gutter);
-  }
-  .portrait {
-    aspect-ratio: 4 / 5;
-    width: 100%;
-    max-width: 520px;
-  }
-  .portrait-placeholder {
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: var(--gutter);
-    background: var(--color-neutral-200);
-    border: 2px dashed var(--color-neutral-500);
+  }
+  .portrait {
+    width: 100%;
+    max-width: 520px;
+  }
+  /* The portrait is a landscape shot cropped to 4:5; keep the subject (left
+     third of the frame) in view rather than centre-cropping. */
+  .portrait :global(img) {
+    object-position: 30% 50%;
   }
   .text {
     border-left: var(--rule);
