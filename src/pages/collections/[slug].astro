@@ -67,7 +67,7 @@ const jsonLd = {
     </SectionHeader>
 
     <div class="rule-b">
-      <Masonry photos={g.photos} group="gallery" variant="gallery" />
+      <Masonry photos={g.photos} group="gallery" variant="gallery" pageSize={{ mobile: 5, desktop: 10 }} />
     </div>
 
     {

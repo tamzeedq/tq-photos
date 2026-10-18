@@ -1,11 +1,15 @@
 ---
 /**
  * Shortest-column-first masonry, computed at build time for each breakpoint
- * and switched with media queries (zero JS). Columns are separated by
- * full-height 2px rules: each column has border-left + margin-left:-2px
- * inside an overflow:hidden row, so the first rule falls off-screen.
+ * and switched with media queries. Columns are separated by full-height 2px
+ * rules: each column has border-left + margin-left:-2px inside an
+ * overflow:hidden row, so the first rule falls off-screen.
  * Hidden variants are display:none, so their lazy images never load and
  * their buttons leave the tab order.
+ *
+ * With `pageSize`, each layout is split into pages (each laid out as its own
+ * balanced masonry) and scripts/pager.ts shows one page at a time with
+ * Previous/Next controls. Without JS every page shows, stacked.
  */
 import PhotoTile from './PhotoTile.astro';
 import { distribute, type Photo } from '../lib/content';
@@ -14,50 +18,104 @@ interface Props {
   photos: Photo[];
   group: string;
   variant: 'highlight' | 'gallery';
+  /** Photos per page on phones (< 760px) and on wider screens. Omit for no paging. */
+  pageSize?: { mobile: number; desktop: number };
 }
 
-const { photos, group, variant } = Astro.props;
+const { photos, group, variant, pageSize } = Astro.props;
 
 // highlight: 1 col < 760, 2 cols 760–1099, 3 cols ≥ 1100. gallery: 1 col < 760, 2 cols ≥ 760.
 const layouts =
   variant === 'highlight'
     ? [
-        { cols: 1, cls: 'v-mobile', sizes: '100vw' },
-        { cols: 2, cls: 'v-mid', sizes: '50vw' },
-        { cols: 3, cls: 'v-wide', sizes: '33vw' },
+        { cols: 1, cls: 'v-mobile', sizes: '100vw', mobile: true },
+        { cols: 2, cls: 'v-mid', sizes: '50vw', mobile: false },
+        { cols: 3, cls: 'v-wide', sizes: '33vw', mobile: false },
       ]
     : [
-        { cols: 1, cls: 'v-mobile', sizes: '100vw' },
-        { cols: 2, cls: 'v-mid v-wide', sizes: '50vw' },
+        { cols: 1, cls: 'v-mobile', sizes: '100vw', mobile: true },
+        { cols: 2, cls: 'v-mid v-wide', sizes: '50vw', mobile: false },
       ];
+
+/** Split into pages, then lay each page out; indexes stay global (lightbox order). */
+function paginate(cols: number, size: number) {
+  const pages = [];
+  for (let start = 0; start < photos.length; start += size) {
+    const columns = distribute(photos.slice(start, start + size), cols).map((col) =>
+      col.map(({ item, index }) => ({ item, index: start + index })),
+    );
+    pages.push(columns);
+  }
+  return pages;
+}
+
+const sets = layouts.map((l) => {
+  const size = pageSize ? (l.mobile ? pageSize.mobile : pageSize.desktop) : photos.length;
+  const pages = paginate(l.cols, Math.max(1, size));
+  return { ...l, size, pages, paged: pages.length > 1 };
+});
 ---
 
 {
-  layouts.map((l) => (
-    <div class:list={['masonry', l.cls]}>
-      {distribute(photos, l.cols).map((col) => (
-        <div class="col">
-          {col.map(({ item, index }, j) => (
-            <PhotoTile
-              photo={item}
-              index={index}
-              group={group}
-              variant={variant}
-              sizes={l.sizes}
-              revealDelay={(j % 3) * 90}
-            />
+  sets.map((s) => (
+    <div class:list={['set', s.cls]} data-paged={s.paged ? '' : undefined} data-page-size={s.size}>
+      {s.pages.map((columns, p) => (
+        <div class:list={['masonry', p === 0 && 'is-current']} data-page={p}>
+          {columns.map((col) => (
+            <div class="col">
+              {col.map(({ item, index }, j) => (
+                <PhotoTile
+                  photo={item}
+                  index={index}
+                  group={group}
+                  variant={variant}
+                  sizes={s.sizes}
+                  revealDelay={(j % 3) * 90}
+                />
+              ))}
+            </div>
           ))}
         </div>
       ))}
+      {s.paged && (
+        <nav class="pager label" aria-label="Photo pages">
+          <button type="button" class="pager-btn" data-pager-prev disabled>
+            <span aria-hidden="true">←</span> Previous
+          </button>
+          <span class="pager-status" aria-live="polite" data-pager-status>
+            Page 1 / {s.pages.length}
+          </span>
+          <button type="button" class="pager-btn pager-next" data-pager-next>
+            Next <span aria-hidden="true">→</span>
+          </button>
+        </nav>
+      )}
     </div>
   ))
 }
 
+<script>
+  import '../scripts/pager';
+</script>
+
 <style>
-  .masonry {
+  .set {
     display: none;
+  }
+  .masonry {
+    display: flex;
     align-items: stretch;
     overflow: hidden;
+  }
+  /* With JS, show only the current page; without it, pages stack (ruled). */
+  :global(html.js) [data-paged] > .masonry:not(.is-current) {
+    display: none;
+  }
+  :global(html:not(.js)) .masonry + .masonry {
+    border-top: var(--rule);
+  }
+  :global(html:not(.js)) .pager {
+    display: none;
   }
   .col {
     flex: 1;
@@ -69,19 +127,70 @@ const layouts =
     border-left: var(--rule);
     margin-left: -2px;
   }
+
+  /* Previous | Page n / N | Next — a ruled row like the rest of the grid. */
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: var(--rule);
+  }
+  .pager-btn {
+    padding: 18px var(--gutter);
+    background: none;
+    border: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    /* Accent red for actions, like "Open collection →" / "Next collection →". */
+    color: var(--color-accent-700);
+    text-align: left;
+    cursor: pointer;
+  }
+  .pager-btn:hover:not(:disabled) {
+    background: var(--color-neutral-200);
+    color: var(--color-accent-900);
+  }
+  .pager-btn:disabled {
+    color: var(--color-neutral-500);
+    cursor: default;
+  }
+  .pager-btn:focus-visible {
+    outline-offset: -4px;
+  }
+  .pager-next {
+    text-align: right;
+  }
+  .pager-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px var(--gutter);
+    border-left: var(--rule);
+    border-right: var(--rule);
+    font-variant-numeric: tabular-nums;
+  }
+
   @media (max-width: 759.98px) {
     .v-mobile {
-      display: flex;
+      display: block;
+    }
+  }
+  /* Small phones: keep each pager label on one line. */
+  @media (max-width: 419.98px) {
+    .pager-btn,
+    .pager-status {
+      padding-inline: 10px;
+      letter-spacing: 0.08em;
     }
   }
   @media (min-width: 760px) and (max-width: 1099.98px) {
     .v-mid {
-      display: flex;
+      display: block;
     }
   }
   @media (min-width: 1100px) {
     .v-wide {
-      display: flex;
+      display: block;
     }
   }
 </style>

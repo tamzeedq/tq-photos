@@ -59,7 +59,9 @@ One-paragraph blurb.
 | `src/styles/global.css` | Resets, utilities, ruled-grid helpers, photo treatment, reveal, reduced motion |
 | `src/lib/content.ts` | Content queries + masonry distribution |
 | `src/components/` | Nav, Footer, Hero, SectionHeader, Masonry, PhotoTile, PhotoImage, CollectionCard, CollectionRow, About, Contact, Lightbox |
-| `src/scripts/` | Client scripts: `motion.ts` (reveal, parallax), `lightbox.ts` |
+| `src/scripts/` | Client scripts: `motion.ts` (reveal, parallax), `lightbox.ts`, `pager.ts` (collection paging) |
+
+Collection pages show 10 photos per page on desktop and 5 on phones; change `pageSize` on `<Masonry>` in `src/pages/collections/[slug].astro`.
 
 ## Deploy
 
