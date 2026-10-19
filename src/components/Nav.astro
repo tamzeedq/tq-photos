@@ -11,7 +11,12 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
 ---
 
 <nav aria-label="Primary" class="nav grid4 rule-b">
-  <a href={url('/')} class="brand span2"><span class="square" aria-hidden="true"></span>Tamzeed Quazi</a>
+  <div class="brand-cell span2">
+    <a href={url('/')} class="brand"><span class="square" aria-hidden="true"></span>Tamzeed Quazi</a>
+    {/* The main portfolio lives at the domain root, outside this site's base path,
+        so force a full page load rather than a ClientRouter swap. */}
+    <a href="/" class="portfolio label" data-astro-reload>Portfolio <span aria-hidden="true">↗</span></a>
+  </div>
   <div class="links span2 rule-l">
     {
       links.map((l) => (
@@ -35,7 +40,13 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
     align-items: stretch;
     background: var(--color-bg);
   }
+  .brand-cell {
+    display: flex;
+    align-items: stretch;
+  }
   .brand {
+    flex: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -47,6 +58,20 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
     text-transform: uppercase;
     color: var(--color-text);
     text-decoration: none;
+  }
+  .portfolio {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 16px var(--gutter);
+    border-left: var(--rule);
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .portfolio:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-text);
   }
   .square {
     width: 12px;
@@ -86,11 +111,12 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
 
   /* Phones: brand on its own row, then one ruled row of content-sized links. */
   @media (max-width: 759.98px) {
-    .brand,
+    .brand-cell,
     .links {
       grid-column: 1 / -1;
     }
-    .brand {
+    .brand,
+    .portfolio {
       padding-block: 14px;
     }
     .links {
@@ -113,6 +139,10 @@ const path = unbase(Astro.url.pathname).replace(/\/$/, '');
     .links a {
       padding-inline: 5px;
       letter-spacing: 0.06em;
+    }
+    .portfolio {
+      padding-inline: 10px;
+      letter-spacing: 0.08em;
     }
   }
 </style>
